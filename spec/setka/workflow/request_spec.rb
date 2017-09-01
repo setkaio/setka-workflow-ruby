@@ -1,12 +1,14 @@
 require 'spec_helper'
 
-describe Workflow::Request do
+describe Setka::Workflow::Request do
   describe 'initialize' do
     it 'raises specific error if passed body has wrong format' do
       body = double(:invalid_body)
 
-      expect { Workflow::Request.new(:post, 'uri', body, {}) }.to raise_error(
-        Workflow::WrongParamError, 'Body param must be a hash'
+      expect do
+        Setka::Workflow::Request.new(:post, 'uri', body, {})
+      end.to raise_error(
+        Setka::Workflow::WrongParamError, 'Body param must be a hash'
       )
     end
   end
@@ -50,10 +52,11 @@ describe Workflow::Request do
             headers: headers
           )
 
-          result = Workflow::Request.new(verb, send("#{verb}_uri"), {}, {})
-            .execute
+          result = Setka::Workflow::Request.new(
+              verb, send("#{verb}_uri"), {}, {}
+            ).execute
 
-          expect(result).to be_instance_of Workflow::Response
+          expect(result).to be_instance_of Setka::Workflow::Response
           expect(result.code).to eq(200)
           expect(result.body).to eq(body)
           expect(result.headers).to eq(processed_headers)
@@ -77,7 +80,7 @@ describe Workflow::Request do
             body: body.to_json, headers: headers
           )
 
-          Workflow::Request.new(verb, uri, body, options)
+          Setka::Workflow::Request.new(verb, uri, body, options)
             .execute
         end
       end

@@ -1,12 +1,9 @@
 require 'spec_helper'
 
-describe Workflow::Configuration do
-  let(:configuration) { Workflow::Configuration.new }
+describe Setka::Workflow::Configuration do
+  let(:configuration) { Setka::Workflow::Configuration.new }
 
-  [
-    :access_token,
-    :space_name
-  ].each do |attribute|
+  [:access_token, :space_name].each do |attribute|
     it "has a #{attribute} attribute" do
       configuration.public_send(:"#{attribute}=", attribute.to_s)
       expect(configuration.public_send(attribute.to_s)).to eq attribute.to_s
@@ -15,7 +12,7 @@ describe Workflow::Configuration do
 
   describe 'initialize' do
     it 'sets key attributes provided as a hash' do
-      configuration = Workflow::Configuration.new(
+      configuration = Setka::Workflow::Configuration.new(
         access_token: 'some_access_token',
         space_name: 'some_space_name'
       )
@@ -24,7 +21,6 @@ describe Workflow::Configuration do
       expect(configuration.space_name).to eq('some_space_name')
     end
   end
-
 
   describe '#attributes=' do
     it 'ignores unknown attributes' do
@@ -47,7 +43,8 @@ describe Workflow::Configuration do
             space_name: 'some_space_name'
           }
         end.to raise_error(
-          Workflow::ConfigurationError, 'access_token must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'access_token must be a filled string'
         )
       end
 
@@ -58,7 +55,8 @@ describe Workflow::Configuration do
             space_name: 'some_space_name'
           }
         end.to raise_error(
-          Workflow::ConfigurationError, 'access_token must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'access_token must be a filled string'
         )
       end
     end
@@ -71,7 +69,8 @@ describe Workflow::Configuration do
             space_name: Object.new
           }
         end.to raise_error(
-          Workflow::ConfigurationError, 'space_name must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'space_name must be a filled string'
         )
       end
 
@@ -82,7 +81,8 @@ describe Workflow::Configuration do
             space_name: Object.new
           }
         end.to raise_error(
-          Workflow::ConfigurationError, 'space_name must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'space_name must be a filled string'
         )
       end
     end
@@ -99,13 +99,15 @@ describe Workflow::Configuration do
     context 'when access token is invalid' do
       it 'raises specific error if access token is blank string' do
         expect { configuration.access_token = '' }.to raise_error(
-          Workflow::ConfigurationError, 'access_token must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'access_token must be a filled string'
         )
       end
 
       it 'raises specific error if access token is not string' do
         expect { configuration.access_token = Object.new }.to raise_error(
-          Workflow::ConfigurationError, 'access_token must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'access_token must be a filled string'
         )
       end
     end
@@ -122,13 +124,15 @@ describe Workflow::Configuration do
     context 'when space name is invalid' do
       it 'raises specific error if space name is blank string' do
         expect { configuration.space_name = '' }.to raise_error(
-          Workflow::ConfigurationError, 'space_name must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'space_name must be a filled string'
         )
       end
 
       it 'raises specific error if space name is not string' do
         expect { configuration.space_name = Object.new }.to raise_error(
-          Workflow::ConfigurationError, 'space_name must be a filled string'
+          Setka::Workflow::ConfigurationError,
+          'space_name must be a filled string'
         )
       end
     end
@@ -137,7 +141,7 @@ describe Workflow::Configuration do
   describe '#credentials?' do
     it 'raises specific error if credentials are not specified completely' do
       expect { configuration.credentials? }.to raise_error(
-        Workflow::ConfigurationError, 'access_token is not specified, '\
+        Setka::Workflow::ConfigurationError, 'access_token is not specified, '\
           'space_name is not specified'
       )
     end

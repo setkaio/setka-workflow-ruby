@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Workflow::Ticket do
+describe Setka::Workflow::Ticket do
   let(:space_name) { 'somespace' }
 
   before do
-    Workflow.configure do |c|
+    Setka::Workflow.configure do |c|
       c.access_token = 'sometoken'
       c.space_name = space_name
     end
@@ -19,7 +19,7 @@ describe Workflow::Ticket do
 
     it 'send request with appropriate params and verb' do
       stub_request(:patch, url).with(body: nil)
-      Workflow::Ticket.publish(id)
+      Setka::Workflow::Ticket.publish(id)
     end
   end
 
@@ -32,7 +32,7 @@ describe Workflow::Ticket do
 
     it 'send request with appropriate params and verb' do
       stub_request(:patch, url).with(body: nil)
-      Workflow::Ticket.unpublish(id)
+      Setka::Workflow::Ticket.unpublish(id)
     end
   end
 
@@ -53,7 +53,7 @@ describe Workflow::Ticket do
 
     it 'send request with appropriate params and verb' do
       stub_request(:patch, url).with(body: body.to_json)
-      Workflow::Ticket.update(id, body)
+      Setka::Workflow::Ticket.update(id, body)
     end
   end
 
@@ -71,7 +71,7 @@ describe Workflow::Ticket do
 
     it 'send request with appropriate params and verb' do
       stub_request(:patch, url).with(body: body.to_json)
-      Workflow::Ticket.sync_analytics(body)
+      Setka::Workflow::Ticket.sync_analytics(body)
     end
   end
 end

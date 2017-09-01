@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Workflow::Client do
+describe Setka::Workflow::Client do
   context 'initialize' do
     let(:client) do
-      Workflow::Client.new(
+      Setka::Workflow::Client.new(
         access_token: 'some_access_token',
         space_name: 'some_space_name'
       )
@@ -42,14 +42,14 @@ describe Workflow::Client do
         let(:path) { "some/path/#{verb}" }
 
         let(:valid_client) do
-          Workflow::Client.new(
+          Setka::Workflow::Client.new(
             access_token: 'some_access_token',
             space_name: 'some_space_name'
           )
         end
 
         let(:invalid_client) do
-          Workflow::Client.new(access_token: 'some_access_token')
+          Setka::Workflow::Client.new(access_token: 'some_access_token')
         end
 
         it 'executes #invoke_verb with appropriate arguments' do
@@ -73,13 +73,13 @@ describe Workflow::Client do
           expect do
             invalid_client.public_send(verb, path, body, options)
           end.to raise_error(
-            Workflow::ConfigurationError, 'space_name is not specified'
+            Setka::Workflow::ConfigurationError, 'space_name is not specified'
           )
         end
 
         it 'returns body if request has been succesful' do
           request = double(:request)
-          allow(Workflow::Request).to receive(:new).and_return(request)
+          allow(Setka::Workflow::Request).to receive(:new).and_return(request)
 
           response = double(
             :response, code: '200', body: { ticket: 'Ticket object' }
@@ -96,7 +96,7 @@ describe Workflow::Client do
           let(:request) { double(:request) }
 
           before do
-            allow(Workflow::Request).to receive(:new).and_return(request)
+            allow(Setka::Workflow::Request).to receive(:new).and_return(request)
           end
 
           it 'raises specific error if response code is 401' do
@@ -109,7 +109,7 @@ describe Workflow::Client do
             expect do
               valid_client.public_send(verb, path, body, options)
             end.to raise_error(
-              Workflow::InvalidAccessToken, 'Token is invalid'
+              Setka::Workflow::InvalidAccessToken, 'Token is invalid'
             )
           end
 
@@ -123,7 +123,7 @@ describe Workflow::Client do
             expect do
               valid_client.public_send(verb, path, body, options)
             end.to raise_error(
-              Workflow::InternalServerError, 'Internal server error'
+              Setka::Workflow::InternalServerError, 'Internal server error'
             )
           end
 
@@ -137,7 +137,7 @@ describe Workflow::Client do
             expect do
               valid_client.public_send(verb, path, body, options)
             end.to raise_error(
-              Workflow::Error, 'Bad request'
+              Setka::Workflow::Error, 'Bad request'
             )
           end
         end

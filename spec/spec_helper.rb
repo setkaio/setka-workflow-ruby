@@ -24,17 +24,17 @@ end
 
 Bundler.require(:spec)
 
-require 'workflow'
+require 'setka-workflow'
 require 'webmock/rspec'
 require 'stringio'
 
-Workflow.logger = Logger.new(StringIO.new)
+Setka::Workflow.logger = Logger.new(StringIO.new)
 
 RSpec.configure do |rspec|
   rspec.filter_run_excluding broken: true
 
   rspec.before :each do
-    Workflow.reset!
+    Setka::Workflow.reset!
   end
 
   rspec.around(:each, :silence_warnings) do |example|
