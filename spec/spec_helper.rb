@@ -1,11 +1,46 @@
-require 'bundler/setup'
+require 'rubygems'
+require 'logger'
+
+unless defined? Rubinius
+  require 'simplecov'
+  SimpleCov.start
+end
+
+begin
+  require 'pry-byebug'
+rescue LoadError
+end
+
+# Set up gems listed in the Gemfile.
+begin
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('../Gemfile', File.dirname(__FILE__))
+  require 'bundler'
+  Bundler.setup
+rescue Bundler::GemNotFound => e
+  STDERR.puts e.message
+  STDERR.puts 'Try running `bundle install`.'
+  exit!
+end
+
+Bundler.require(:spec)
+
 require 'workflow'
+require 'webmock/rspec'
+require 'stringio'
 
-RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
+Workflow.logger = Logger.new(StringIO.new)
 
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+RSpec.configure do |rspec|
+  rspec.filter_run_excluding broken: true
+
+  rspec.before :each do
+    Workflow.reset!
+  end
+
+  rspec.around(:each, :silence_warnings) do |example|
+    verbose = $VERBOSE
+    $VERBOSE = nil
+    example.run
+    $VERBOSE = verbose
   end
 end
