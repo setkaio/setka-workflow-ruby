@@ -2,14 +2,14 @@
 
 This gem implements the Setka Workflow API for integration an external publishing platform written in the Ruby language with Setka Workflow.
 
-[Full API documentation](http://www.rubydoc.info/gems/workflow).
+[Full API documentation](http://www.rubydoc.info/gems/setka-workflow).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'workflow'
+gem 'setka-workflow'
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install workflow
+    $ gem install setka-workflow
 
 ## Requirements
 
@@ -33,9 +33,9 @@ Or install it yourself as:
 1. Configuring by passing a block with `space_name` and `access_token`.
 
 ```ruby
-require 'workflow'
+require 'setka-workflow'
 
-Workflow.configure do |config|
+Setka::Workflow.configure do |config|
   config.access_token = ACCESS_TOKEN
   config.space_name  = SPACE_NAME
 end
@@ -46,7 +46,7 @@ This kind of configuration is global. In order to reset the configuration `Workf
 2. Instantiating an client object on behalf which operations are executed.
 
 ```ruby
-client = Workflow::Client.new(access_token: ACCESS_TOKEN, space_name: SPACE_NAME)
+client = Setka::Workflow::Client.new(access_token: ACCESS_TOKEN, space_name: SPACE_NAME)
 ```
 
 ## Usage
@@ -58,19 +58,19 @@ client = Workflow::Client.new(access_token: ACCESS_TOKEN, space_name: SPACE_NAME
 
 # ticket_id = 112329
 
-Workflow::Ticket.publish(ticket_id)
+Setka::Workflow::Ticket.publish(ticket_id)
 
 # To unpublish the ticket:
 
 # ticket_id = 112330
 
-Workflow::Ticket.unpublish(ticket_id)
+Setka::Workflow::Ticket.unpublish(ticket_id)
 
 # To update the ticket:
 
 # ticket_id = 112331
 
-Workflow::Ticket.update(ticket_id)
+Setka::Workflow::Ticket.update(ticket_id)
 
 # To sync analytics of the tickets:
 
@@ -88,7 +88,7 @@ Workflow::Ticket.update(ticket_id)
 #   ]
 # }
 
-Workflow::Ticket.sync_analytics(body)
+Setka::Workflow::Ticket.sync_analytics(body)
 ```
 
 ### Category operations
@@ -98,20 +98,20 @@ Workflow::Ticket.sync_analytics(body)
 
 # body = { name: 'Cats & Dogs' }
 
-Workflow::Category.create(body)
+Setka::Workflow::Category.create(body)
 
 # To update the category:
 
 # category_id = 412
 # body = { name: 'Hamsters' }
 
-Workflow::Category.update(category_id, body)
+Setka::Workflow::Category.update(category_id, body)
 
 # To delete the category:
 
 # category_id = 413
 
-Workflow::Category.delete(category_id)
+Setka::Workflow::Category.delete(category_id)
 ```
 
 ### Multiple clients
@@ -119,18 +119,18 @@ Workflow::Category.delete(category_id)
 ```ruby
 # Clients creation
 
-animals_client = Workflow::Client.new(access_token: 'animals_access_token', space_name: 'animals')
-humans_client = Workflow::Client.new(access_token: 'humans_access_token', space_name: 'humans')
+animals_client = Setka::Workflow::Client.new(access_token: 'animals_access_token', space_name: 'animals')
+humans_client = Setka::Workflow::Client.new(access_token: 'humans_access_token', space_name: 'humans')
 
 # Publishing the ticket in animals space
 
-Workflow::Ticket.publish(41123, client: animals_client)
+Setka::Workflow::Ticket.publish(41123, client: animals_client)
 
 # Updating the category in humans space
 
 body = { name: 'Professions' }
 
-Workflow::Category.update(882, body, client: animals_client)
+Setka::Workflow::Category.update(882, body, client: animals_client)
 ```
 
 ## Development
