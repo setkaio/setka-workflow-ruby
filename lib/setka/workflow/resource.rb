@@ -2,10 +2,14 @@ module Setka
   module Workflow
     class Resource
       class << self
+        # Abstract operation's execution over a member of a resource.
+        #
         def member(http_verb, id, action = nil, body = nil, options)
           actual_client(options).send(http_verb, path(action, id), body, options)
         end
 
+        # Abstract operation's execution over a collection of a resource.
+        #
         def collection(http_verb, action = nil, body = nil, options)
           actual_client(options).send(http_verb, path(action), body, options)
         end
