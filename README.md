@@ -1,6 +1,6 @@
 # Setka Workflow API Ruby Library
 
-This gem implements the Setka Workflow API for integration an external publishing platform written in the Ruby language with Setka Workflow.
+This gem implements the Setka Workflow API for integrating an external publishing platform written in Ruby language with Setka Workflow.
 
 [Full API documentation](http://www.rubydoc.info/gems/setka-workflow).
 
@@ -26,9 +26,9 @@ Or install it yourself as:
 
 ## Configuration
 
-*Access token* is an unique key to authorize in Workflow Integration API. It is generated after the creation of the space and can be obtained from the Settings page (Integration section) in Setka Workflow.
+*Access token* is a unique key required to get authorized in Workflow Integration API. It is generated after the creation of the space and can be obtained from the Settings page (Integration section) in Setka Workflow.
 
-*Space name* is the part of URL segment next after the hostname. For example in the URL `https://workflow.setka.io/foobar/tickets` `foobar` is the space name.
+*Space name* is the part of URL segment after the hostname. For example in the URL `https://workflow.setka.io/foobar/tickets` `foobar` is the space name.
 
 1. Configuring by passing a block with `space_name` and `access_token`.
 
@@ -41,9 +41,9 @@ Setka::Workflow.configure do |config|
 end
 ```
 
-This kind of configuration is global. In order to reset the configuration `Workflow.reset!` should be executed.
+This kind of configuration is global. In order to reset the configuration, `Workflow.reset!` should be executed.
 
-2. Instantiating an client object on behalf which operations are executed.
+2. Instantiating a client object on behalf of which operations are executed.
 
 ```ruby
 client = Setka::Workflow::Client.new(access_token: ACCESS_TOKEN, space_name: SPACE_NAME)
@@ -135,7 +135,7 @@ Setka::Workflow::Category.update(882, body, client: animals_client)
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
